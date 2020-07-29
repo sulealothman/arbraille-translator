@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<!--
+		/**
+		 *
+		 * Author Suleiman Al-Othman (@sulealothman)
+		 * Braille Cornverter
+		 * Version 1.0
+		 *
+		 **/
+	 -->
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>برايل | @sulealothman</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-right shadow p-4">
+        <div class="row py-4 border-bottom">
+            <div class="col-12">
+                <h1 class="text-center">
+                    <i class="fa fa-braille" aria-hidden="true"></i>
+                    برايل | Braille
+                </h1>
+                <h6 class="text-center py-3">
+                    أشكر الأستاذ عبدالإله
+                    <a dir="ltr" href="https://twitter.com/abdulallah351">@abdulallah351</a>
+                    على مساعدته في ضبط رموز اللغة العربية بما يقابلها بلغة برايل
+                </h6>
+            </div>
+        </div>
+        <div class="row py-4">
+            <div class="col-12 col-sm-12 col-md-6">
+                <h5 class="text-center pb-3">
+                    نوع التحويل
+                </h5>
+                <div id="convertType" class="px-5">
+                    <div>
+                        <label for="ar2b">من الأبجدية إلى برايل</label>
+                        <input id="ar2b" type="radio" checked value="ar2b" name="convertType">
+                    </div>
+                    <div>
+                        <label for="b2ar">من برايل إلى الأبجدية</label>
+                        <input id="b2ar" type="radio" value="b2ar" name="convertType">
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6">
+                <h5 class="text-center pb-3">
+                    تم دعم :
+                </h5>
+                <div class="px-5">
+                    <ul>
+                        <li>
+                            رموز الحروف
+                            ( ا - ي )
+                        </li>
+                        <li>
+                            رموز الأعداد و رمز علامة الأعداد
+                            (0-9 - علامة الأعداد)
+                        </li>
+                        <li>
+                            رموز التشكيل
+                            ( َ - ً - ُ - ٌ - ِ - ٍ - ْ - ّ )
+                        </li>
+                        <li>
+                            رموز علامات التنقيط
+                            ( . - ، - : - ؛ - ؟ - ! )
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-4 shadow-sm">
+            <div class="col-12 taxt-center py-2">
+                <textarea id="alpha" class="form-control" rows="10"></textarea>
+            </div>
+            <div class="col-12 taxt-center py-2">
+                <textarea id="braille" dir="ltr" class="form-control" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="row justify-content-center py-3">
+            <p class="col-12 text-center text-muted small">
+                برمجة سليمان العثمان
+            </p>
+            <a class="text-dark px-1" target="_blank" title="@sulealothman twitter"
+                href="https://www.twitter.com/sulealothman">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="text-dark px-1" target="_blank" title="@sulealothman github"
+                href="https://www.github.com/sulealothman">
+                <i class="fa fa-github" aria-hidden="true"></i>
+            </a>
+            <a class="text-dark px-1" target="_blank" title="@sulealothman snapchat"
+                href="https://www.snapchat.com/add/sulealothman">
+                <i class="fa fa-snapchat" aria-hidden="true"></i>
+            </a>
+            <span dir="ltr">
+                @sulealothman
+            </span>
+        </div>
+    </div>
+
+
+
+    <script src="assets/jquery-3.3.1.slim.min.js"></script>
+    <script src="assets/bootstrap/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+    <script>
+        let rowNum = 2;
+        let systemSelect = $("input[name='convertType']:checked").val();
+        $(document).on('click', '#convertType', function () {
+            systemSelect = $("input[name='convertType']:checked").val();
+        })
+
+        let brailleSymbols = {
+            'ا': '⠁', // ا
+            'ب': '⠃', // ب
+            'ت': '⠞', // ت
+            'ث': '⠹', // ث
+            'ج': '⠚', // ج
+            'ح': '⠱', // ح
+            'خ': '⠭', // خ
+            'د': '⠙', // د
+            'ذ': '⠮', // ذ
+            'ر': '⠗', // ر
+            'ز': '⠵', // ز
+            'س': '⠎', // س
+            'ش': '⠩', // ش
+            'ص': '⠯', // ص
+            'ض': '⠫', // ض
+            'ط': '⠾', // ط
+            'ظ': '⠿', // ظ
+            'ع': '⠷', // ع
+            'غ': '⠣', // غ
+            'ف': '⠋', // ف
+            'ق': '⠟', // ق
+            'ك': '⠅', // ك
+            'ل': '⠇', // ل
+            'م': '⠍', // م
+            'ن': '⠝', // ن
+            'ه': '⠓', // ه
+            'و': '⠺', // و
+            'ي': '⠊', // ي
+            'ء': '⠄', // ء
+            'أ': '⠌', // أ
+            '⠨': '⠜', // إ
+            'آ': '⠜', // إ
+            'ى': '⠕', // ى
+            'ئ': '⠽', // ئ
+            'ؤ': '⠳', // ؤ
+            'ﻻ': '⠧', // ﻻ
+            'ة': '⠡', // ة
+            'َ': '⠂', // َ
+            'ً': '⠆', // ً
+            'ِ': '⠑', // ِ
+            'ٍ': '⠔', // ٍ
+            'ُ': '⠥', // ُ 
+            'ٌ': '⠢', // ٌ
+            'ّ': '⠠', // ّ
+            'ْ': '⠒', // ْ
+            '.': '⠲', // .
+            '،': '⠐', // ،
+            '؛': '⠰', // ؛
+            '؟': '⠦', // ؟
+            '!': '⠖', // !
+            ':': '⠐⠂', // :
+            ' ': ' ',
+        };
+
+        let brailleNumbers = {
+            '0': '⠚', // 0
+            '1': '⠁', // 1
+            '2': '⠃', // 2
+            '3': '⠉', // 3
+            '4': '⠙', // 4
+            '5': '⠑', // 5
+            '6': '⠋', // 6
+            '7': '⠛', // 7
+            '8': '⠓', // 8
+            '9': '⠊', // 9
+            'numSymb': '⠼', // numbers symbol
+
+        }
+        
+        function ar2braille(str) {
+            let s = '';
+            if (str == '') {
+                return '';
+            }
+            let words = str.split(' ');
+            for (let word of words) {
+                s += returnBrailleWord(word) + ' ';
+            }
+            return s;
+        }
+        function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+        function returnBrailleWord(letters) {
+            let word = '', currentLetter = '';
+            if (isNumber(letters)) {
+                return brailleNumbers['numSymb'] + brailleNums(letters);
+            }
+            for (letter of letters) {
+                if (letter != '\n') {
+                    currentLetter = brailleSymbols[letter];
+                    currentLetter = (currentLetter === undefined) ? '' : currentLetter;
+                    word += currentLetter;
+                } else {
+                    word += '\n';
+                }
+            }
+            return word;
+        }
+
+        function brailleNums(letters) {
+            let word = '', currentLatter = '';
+            for (letter of letters) {
+                if (letter != '\n') {
+                    currentLatter = brailleNumbers[letter];
+                    word += currentLatter;
+                } else {
+                    word += '\n';
+                }
+            }
+            return word;
+        }
+
+        function braille2ar(str) {
+            let s = '';
+            if (str == '') {
+                return '';
+            }
+            let words = str.split(' ');
+            for (let word of words) {
+                s += returnAlphaWord(word) + ' ';
+            }
+            return s;
+        }
+        function endsWithAny(suffixes, string) {
+            return suffixes.some(function (suffix) {
+                return string.endsWith(suffix);
+            });
+        }
+        function returnAlphaWord(letters) {
+            let word = '', currentLetter = '';
+            if (letters.includes(brailleNumbers['numSymb']) && letters != ' ') {
+                letters = letters.substr(1);
+                return alphaNums(letters);
+            }
+      
+            for (letter of letters) {
+                if (letter != '\n') {
+                    currentLetter = Object.keys(brailleSymbols).find(key => brailleSymbols[key] === letter);
+                    currentLetter = (currentLetter === undefined) ? '' : currentLetter;
+                    word += currentLetter;
+                } else {
+                    word += '\n';
+                }
+            }
+            return word;
+        }
+
+        function alphaNums(letters) {
+            let word = '', currentLetter = '';
+            for (letter of letters) {
+                if (letter != '\n') {
+                    currentLetter = Object.keys(brailleNumbers).find(key => brailleNumbers[key] === letter);
+                    word += currentLetter;
+                } else {
+                    word += '\n';
+                }
+            }
+            return word;
+        }
+
+        $(document).on('keyup', '#alpha', function () {
+            let str = $(this).val();
+            if (systemSelect == 'ar2b') {
+                $('#braille').val(ar2braille(str));
+
+            } else {
+                $('#braille').val(braille2ar(str));
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
