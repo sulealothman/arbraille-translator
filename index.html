@@ -97,10 +97,10 @@
 
         <div class="row py-4 shadow-sm">
             <div class="col-12 taxt-center py-2">
-                <textarea id="alpha" class="form-control" rows="10"></textarea>
+                <textarea id="in-text" dir="rtl" class="form-control" rows="10"></textarea>
             </div>
             <div class="col-12 taxt-center py-2">
-                <textarea id="braille" dir="ltr" class="form-control" rows="10"></textarea>
+                <textarea id="out-text" dir="ltr" class="form-control" rows="10"></textarea>
             </div>
         </div>
         <div class="row justify-content-center py-3">
@@ -136,6 +136,14 @@
         let systemSelect = $("input[name='convertType']:checked").val();
         $(document).on('click', '#convertType', function () {
             systemSelect = $("input[name='convertType']:checked").val();
+            if(systemSelect == 'ar2b') {
+                $('#in-text').attr('dir', 'rtl');
+                $('#out-text').attr('dir', 'ltr');
+
+            } else {
+                $('#in-text').attr('dir', 'ltr');
+                $('#out-text').attr('dir', 'rtl');
+            }
         })
 
         let brailleSymbols = {
@@ -298,13 +306,13 @@
             return word;
         }
 
-        $(document).on('keyup', '#alpha', function () {
+        $(document).on('keyup', '#in-text', function () {
             let str = $(this).val();
             if (systemSelect == 'ar2b') {
-                $('#braille').val(ar2braille(str));
+                $('#out-text').val(ar2braille(str));
 
             } else {
-                $('#braille').val(braille2ar(str));
+                $('#out-text').val(braille2ar(str));
             }
         });
 
